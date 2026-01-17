@@ -184,7 +184,8 @@
                                     </div>
                                     
                                     <div class="card-footer bg-white border-0 pb-3">
-                                        <a href="{{ route('order.create', $service->id) }}" class="btn btn-outline-primary w-100">Pesan Sekarang</a>
+                                        {{-- PERBAIKAN DI SINI: Mengubah route ke 'service.show' --}}
+                                        <a href="{{ route('service.show', $service->id) }}" class="btn btn-outline-primary w-100">Pesan Sekarang</a>
                                     </div>
 
                                 </div>

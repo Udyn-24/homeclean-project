@@ -21,6 +21,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',           // Custom: Role (admin, customer, cleaner)
+        'phone_number',   // Custom: No HP
+        'avatar',         // Custom: Foto Profil
     ];
 
     /**

@@ -3,89 +3,85 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use App\Models\ServiceCategory;
 use App\Models\Service;
+use App\Models\Worker;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
-        // 1. Akun Admin & User (Tetap dipertahankan)
-        User::create([
-            'name' => 'Super Admin',
-            'email' => 'admin@homeclean.com',
-            'password' => Hash::make('password'),
-            'role' => 'admin',
+        // 1. BUAT USER (Admin, Customer, Cleaner)
+        // Menggunakan updateOrCreate agar tidak error jika dijalankan 2x
+        User::updateOrCreate(
+            ['email' => 'admin@homeclean.com'],
+            [
+                'name' => 'Admin Ganteng',
+                'password' => Hash::make('password'),
+                'role' => 'admin',
+                'phone_number' => '081234567890',
+            ]
+        );
+
+        User::updateOrCreate(
+            ['email' => 'user@homeclean.com'],
+            [
+                'name' => 'Budi Customer',
+                'password' => Hash::make('password'),
+                'role' => 'customer',
+                'phone_number' => '089876543210',
+            ]
+        );
+
+        // 2. BUAT KATEGORI LAYANAN
+        $catGeneral = ServiceCategory::create([
+            'name' => 'General Cleaning',
+            'slug' => 'general-cleaning'
         ]);
 
-        User::create([
-            'name' => 'Budi Customer',
-            'email' => 'customer@homeclean.com',
-            'password' => Hash::make('password'),
-            'role' => 'customer',
+        $catDeep = ServiceCategory::create([
+            'name' => 'Deep Cleaning',
+            'slug' => 'deep-cleaning'
         ]);
 
-        // 2. Data Layanan (9 Item untuk Grid 3x3)
-        $services = [
-            [
-                'name' => 'Basic Cleaning',
-                'description' => 'Pembersihan standar harian: menyapu, mengepel, dan merapikan tempat tidur.',
-                'price_per_hour' => 50000,
-                'duration_hours' => 2
-            ],
-            [
-                'name' => 'Deep Cleaning',
-                'description' => 'Pembersihan menyeluruh hingga ke sudut sulit, cocok untuk rumah yang lama tidak dibersihkan.',
-                'price_per_hour' => 100000,
-                'duration_hours' => 4
-            ],
-            [
-                'name' => 'VIP Cleaning (Sultan)',
-                'description' => 'Layanan premium dengan 2 petugas, peralatan lengkap, dan pewangi ruangan aromaterapi.',
-                'price_per_hour' => 250000,
-                'duration_hours' => 3
-            ],
-            [
-                'name' => 'Ironing Service',
-                'description' => 'Jasa setrika baju kiloan maupun satuan, dijamin rapi dan wangi.',
-                'price_per_hour' => 40000,
-                'duration_hours' => 1
-            ],
-            [
-                'name' => 'Bathroom Deep Clean',
-                'description' => 'Membersihkan kerak kamar mandi, kloset, dan wastafel hingga kinclong kembali.',
-                'price_per_hour' => 75000,
-                'duration_hours' => 2
-            ],
-            [
-                'name' => 'Kitchen Cleaning',
-                'description' => 'Membersihkan area dapur yang berminyak, kompor, dan cuci piring menumpuk.',
-                'price_per_hour' => 85000,
-                'duration_hours' => 2
-            ],
-            [
-                'name' => 'Sofa & Carpet Wash',
-                'description' => 'Cuci basah/kering untuk sofa dan karpet guna menghilangkan debu dan tungau.',
-                'price_per_hour' => 150000,
-                'duration_hours' => 3
-            ],
-            [
-                'name' => 'Move-in / Move-out',
-                'description' => 'Pembersihan total rumah kosong sebelum ditempati atau setelah pindahan.',
-                'price_per_hour' => 200000,
-                'duration_hours' => 5
-            ],
-            [
-                'name' => 'Post-Renovation',
-                'description' => 'Membersihkan sisa cat, semen, dan debu tebal pasca renovasi rumah.',
-                'price_per_hour' => 180000,
-                'duration_hours' => 6
-            ],
-        ];
+        // 3. BUAT DAFTAR LAYANAN (SERVICES)
+        Service::create([
+            'category_id' => $catGeneral->id,
+            'name' => 'Basic House Cleaning',
+            'description' => 'Pembersihan standar menyapu, mengepel, dan merapikan kamar.',
+            'price_per_hour' => 50000,
+            'duration_hours' => 2,
+            'image' => null, 
+        ]);
 
-        foreach ($services as $service) {
-            Service::create($service);
-        }
+        Service::create([
+            'category_id' => $catDeep->id,
+            'name' => 'Kamar Mandi Kinclong',
+            'description' => 'Pembersihan kerak membandel di kamar mandi.',
+            'price_per_hour' => 75000,
+            'duration_hours' => 3,
+            'image' => null,
+        ]);
+
+        // 4. BUAT PEKERJA (WORKERS)
+        Worker::create([
+            'name' => 'Siti Bersih',
+            'phone' => '087711223344',
+            'rating' => 4.8,
+            'photo' => null
+        ]);
+
+        Worker::create([
+            'name' => 'Joko Rajin',
+            'phone' => '087755667788',
+            'rating' => 4.5,
+            'photo' => null
+        ]);
+        
+        echo "\nData berhasil diisi! \n";
+        echo "Login Admin: admin@homeclean.com / password \n";
+        echo "Login User: user@homeclean.com / password \n";
     }
 }

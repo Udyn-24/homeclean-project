@@ -9,13 +9,18 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
-    {
-        Schema::create('payments', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
-    }
+    public function up()
+{
+    Schema::create('payments', function (Blueprint $table) {
+        $table->id();
+        $table->foreignId('order_id')->constrained('orders')->onDelete('cascade');
+        $table->decimal('amount', 12, 2);
+        $table->string('method'); // transfer, cash, e-wallet
+        $table->string('proof_image')->nullable(); // Foto bukti transfer
+        $table->string('status')->default('pending'); // pending, paid, failed
+        $table->timestamps();
+    });
+}
 
     /**
      * Reverse the migrations.
