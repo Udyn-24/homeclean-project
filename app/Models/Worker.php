@@ -12,4 +12,10 @@ class Worker extends Model
         'phone', 
         'rating'
     ];
+
+    // Relasi ke Order
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 }

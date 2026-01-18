@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
+<head><!-- Bootstrap 5 CSS --><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"><!-- Bootstrap Icons --><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css"><!-- Font Awesome --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ config('app.name', 'HomeClean') }}</title>
@@ -10,8 +10,15 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
 
-    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
 </head>
+
 <body>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm fixed-top">
@@ -82,7 +89,6 @@
                         <a href="#services" class="btn btn-primary btn-lg px-4">Pesan Sekarang</a>
                     </div>
                     <div class="col-lg-6 text-center">
-                        <img src="https://via.placeholder.com/600x400?text=Home+Cleaning+Illustration" alt="Hero Image" class="img-fluid rounded-3 shadow">
                     </div>
                 </div>
             </div>
@@ -163,10 +169,15 @@
                         @foreach($services->take(6) as $service)
                             <div class="col-md-4 mb-4">
                                 <div class="card h-100 shadow-sm border-0">
-                                    <img src="{{ $service->image ? asset('storage/'.$service->image) : 'https://via.placeholder.com/400x250?text='.$service->name }}" 
-                                         class="card-img-top" 
-                                         alt="{{ $service->name }}"
-                                         style="height: 200px; object-fit: cover;">
+                                    <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                                        @if($service->image)
+                                            <img src="{{ asset('storage/'.$service->image) }}" 
+                                                alt="{{ $service->name }}"
+                                                class="img-fluid h-100" style="object-fit: cover;">
+                                        @else
+                                            <i class="fas fa-{{ $service->id == 1 ? 'broom' : ($service->id == 4 ? 'tshirt' : 'home') }} fa-4x text-primary"></i>
+                                        @endif
+                                    </div>
                                     
                                     <div class="card-body">
                                         <h5 class="card-title fw-bold">{{ $service->name }}</h5>
@@ -212,5 +223,7 @@
             </div>
         </footer>
     </div>
-</body>
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script></body>
 </html>

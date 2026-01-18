@@ -1,0 +1,41 @@
+/* Service Detail Page Styles */
+.service-header {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    padding: 3rem 0;
+    margin-bottom: 2rem;
+}
+
+.service-icon-lg {
+    font-size: 4rem;
+    color: #4361ee;
+    margin-bottom: 1rem;
+}
+
+.service-feature {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.service-feature i {
+    color: #4361ee;
+    margin-right: 1rem;
+    margin-top: 0.3rem;
+}
+
+.price-tag {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #2ecc71;
+}
+
+.related-service-card {
+    transition: all 0.3s ease;
+    border: 1px solid #e9ecef;
+}
+
+.related-service-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    border-color: #4361ee;
+}
