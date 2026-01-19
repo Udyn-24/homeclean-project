@@ -46,28 +46,21 @@ Route::get('/service/{id}', function ($id) {
     return view('service', compact('service'));
 })->name('service.show');
 
-// 5. ADMIN ROUTES
-Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
-    // Dashboard
-    Route::get('/dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
+// Admin Routes
+Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->middleware('can:admin')->name('dashboard');
     
-    // CRUD Services
-    Route::resource('services', \App\Http\Controllers\Admin\ServiceController::class);
+    // Service Management
+    Route::get('/services', [AdminController::class, 'services'])->name('services');
+    Route::get('/services/create', [AdminController::class, 'createService'])->name('services.create');
+    Route::post('/services', [AdminController::class, 'storeService'])->name('services.store');
+    Route::get('/services/{service}/edit', [AdminController::class, 'editService'])->name('services.edit');
+    Route::put('/services/{service}', [AdminController::class, 'updateService'])->name('services.update');
+    Route::delete('/services/{service}', [AdminController::class, 'destroyService'])->name('services.destroy');
     
-    // CRUD Categories
-    Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class);
-    
-    // CRUD Workers
-    Route::resource('workers', \App\Http\Controllers\Admin\WorkerController::class);
-    
-    // CRUD Orders
-    Route::resource('orders', \App\Http\Controllers\Admin\OrderController::class);
-    Route::post('/orders/{order}/status', [\App\Http\Controllers\Admin\OrderController::class, 'updateStatus'])->name('orders.status');
-    Route::post('/orders/{order}/assign-worker', [\App\Http\Controllers\Admin\OrderController::class, 'assignWorker'])->name('orders.assign');
-    Route::get('/orders/{order}/export', [\App\Http\Controllers\Admin\OrderController::class, 'exportPdf'])->name('orders.export');
-    
-    // CRUD Users
-    Route::resource('users', \App\Http\Controllers\Admin\UserController::class);
+    // Order Management
+    Route::get('/orders', [AdminController::class, 'orders'])->name('orders');
+    Route::put('/orders/{order}/status', [AdminController::class, 'updateOrderStatus'])->name('orders.updateStatus');
 });
 
 // 6. CLEANER ROUTES

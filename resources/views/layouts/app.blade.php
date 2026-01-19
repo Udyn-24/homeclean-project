@@ -292,6 +292,13 @@
                 <!-- Auth Buttons -->
                 <ul class="navbar-nav">
                     @if(auth()->check())
+                        @if(auth()->check() && auth()->user()->role == 'admin')
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('admin.dashboard') }}">
+                                    <i class="fas fa-cog me-1"></i>Admin Panel
+                                </a>
+                            </li>
+                        @endif
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" 
                            data-bs-toggle="dropdown" aria-expanded="false">
